@@ -1,4 +1,4 @@
-package com.dongliushui.util;
+package com.dongliushui.util.weixin;
 
 import javax.net.ssl.X509TrustManager;
 import java.security.cert.CertificateException;

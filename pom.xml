@@ -335,9 +335,8 @@
                 <configuration>  
                     <encoding>UTF-8</encoding>  
                 </configuration>  
-            </plugin>  
-  
-            
-    </plugins>
+            </plugin>
+
+	</plugins>
   </build>
 </project>

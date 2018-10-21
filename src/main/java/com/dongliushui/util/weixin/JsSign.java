@@ -1,4 +1,4 @@
-package com.dongliushui.util;
+package com.dongliushui.util.weixin;
 import com.alibaba.fastjson.JSONObject;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -18,11 +18,11 @@ import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.*;
 
-
-public class JS_Sign {
+public class JsSign {
 	
-    public static Map<String, String> getJSSignMapResult(String appid,String appSecret,String apiKey,String access_token,String url,HttpServletRequest request){
-   	 	Map<String, String> ret = new HashMap<String, String>();
+    public static Map<String, String> getJsSignMapResult(String appid,String appSecret,String apiKey,String access_token,
+														 String url,HttpServletRequest request){
+   	 	Map<String, String> ret = new HashMap<>();
    	 	String jsapi_ticket=(String)request.getSession().getAttribute(appid+"jsapi_ticket_session");
    	 	if(jsapi_ticket==null || "".equals(jsapi_ticket)){
    	 		JSONObject json=MyWeixinUtil.httpRequest("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+access_token+"&type=jsapi", "GET", "");
@@ -30,20 +30,20 @@ public class JS_Sign {
    	 		request.getSession().setAttribute(appid+"jsapi_ticket_session", jsapi_ticket);
    	 		request.getSession().setMaxInactiveInterval(7200);
    	 	}
-   	 	ret = sign(jsapi_ticket, url);
+   	 	ret = sign(jsapi_ticket, url,appid);
    	 	return ret;
     }
     
-    public static Map<String, String> sign(String jsapi_ticket, String url) {
+    public static Map<String, String> sign(String jsapi_ticket, String url,String appid) {
         Map<String, String> ret = new HashMap<String, String>();
-        String nonce_str = create_nonce_str();
+        String noncestr = create_noncestr();
         String timestamp = create_timestamp();
         String string1;
         String signature = "";
 
         //注意这里参数名必须全部小写，且必须有序
         string1 = "jsapi_ticket=" + jsapi_ticket +
-                  "&noncestr=" + nonce_str +
+                  "&noncestr=" + noncestr +
                   "&timestamp=" + timestamp +
                   "&url=" + url;
         //  System.out.println(string1);
@@ -64,10 +64,16 @@ public class JS_Sign {
         }
         ret.put("url", url);
         ret.put("jsapi_ticket", jsapi_ticket);
-        ret.put("noncestr", nonce_str);
+        ret.put("noncestr", noncestr);
         ret.put("timestamp", timestamp);
         ret.put("signature", signature);
-        ret.put("appid", Const.APPID);
+        ret.put("appid", appid);
+		System.out.println("url------------"+url);
+		System.out.println("jsapi_ticket------------"+jsapi_ticket);
+		System.out.println("noncestr------------"+noncestr);
+		System.out.println("timestamp------------"+timestamp);
+		System.out.println("signature------------"+signature);
+		System.out.println("appid------------"+appid);
         return ret;
     }
 
@@ -81,7 +87,7 @@ public class JS_Sign {
         return result;
     }
 
-    public static String create_nonce_str() {
+    public static String create_noncestr() {
         return UUID.randomUUID().toString();
     }
 

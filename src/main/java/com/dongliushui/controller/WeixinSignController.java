@@ -1,8 +1,8 @@
 package com.dongliushui.controller;
 
-import com.dongliushui.util.Const;
-import com.dongliushui.util.JS_Sign;
-import com.dongliushui.util.MyWeixinUtil;
+import com.dongliushui.util.weixin.JsSign;
+import com.dongliushui.util.weixin.MyWeixinUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,31 +13,40 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/wxSign")
-public class WechatController  {
+@RequestMapping("/weixin")
+public class WeixinSignController  {
+
+	@Value("#{weixinProperties['AppId']}")
+	private  String appId;
+
+	@Value("#{weixinProperties['AppSecret']}")
+	private  String appSecret;
+
+	@Value("#{weixinProperties['AppKey']}")
+	private  String appKey;
 
 	/**
-	 * 获取分享
+	 * 获取accesstoken
 	 * https://www.huceo.com/post/414.html
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("")
+	@RequestMapping("/sign")
 	@ResponseBody
 	public Map<String, String> sign(HttpServletRequest request,HttpServletResponse response)
 			throws Exception {
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		HttpSession session = request.getSession();
 		String url = request.getParameter("url");
-		String accesstoken = (String) session.getAttribute(Const.APPID+"accesstoken_session");
+		String accesstoken = (String) session.getAttribute(appId+"accesstoken_session");
 		if(accesstoken == null || "".equals(accesstoken)){
-			accesstoken = MyWeixinUtil.getAccessToken(Const.APPID, Const.AppSecret).getToken();
-			session.setAttribute(Const.APPID+"accesstoken_session",accesstoken);
+			accesstoken = MyWeixinUtil.getAccessToken(appId, appSecret).getToken();
+			session.setAttribute(appId+"accesstoken_session",accesstoken);
 			session.setMaxInactiveInterval(7200);
 		}
-		Map<String, String> js_data = JS_Sign.getJSSignMapResult( Const.APPID, Const.AppSecret, Const.API_KEY,accesstoken,url, request);
-		return js_data;
+		Map<String, String> jsData = JsSign.getJsSignMapResult( appId, appSecret, appKey,accesstoken,url, request);
+		return jsData;
 	}
 }

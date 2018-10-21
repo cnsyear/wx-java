@@ -1,39 +1,24 @@
 package com.dongliushui.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONObject;
+import com.dongliushui.bean.*;
+import com.dongliushui.business.*;
+import com.dongliushui.service.impl.MenuServiceImpl;
+import com.dongliushui.util.Configuration;
+import com.dongliushui.util.HttpClientUtil;
+import com.dongliushui.util.SignUtil;
+import com.dongliushui.xmlparser.AllInfoParserHandler;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.alibaba.fastjson.JSONObject;
-import com.dongliushui.bean.BaseMsg;
-import com.dongliushui.bean.LinkMsg;
-import com.dongliushui.bean.LocationMsg;
-import com.dongliushui.bean.PicMsg;
-import com.dongliushui.bean.ShortVideoMsg;
-import com.dongliushui.bean.TextMsg;
-import com.dongliushui.bean.VideoMsg;
-import com.dongliushui.bean.VoiceMsg;
-import com.dongliushui.bean.WechartUserInfo;
-import com.dongliushui.business.LinkMsgProcesssor;
-import com.dongliushui.business.LocationMsgProcesssor;
-import com.dongliushui.business.PicMsgProcesssor;
-import com.dongliushui.business.TextMsgProcessor;
-import com.dongliushui.business.VideoMsgProcesssor;
-import com.dongliushui.business.VoiceMsgProcessor;
-import com.dongliushui.service.impl.MenuServiceImpl;
-import com.dongliushui.util.Configuration;
-import com.dongliushui.util.HttpClientUtil;
-import com.dongliushui.util.SignUtil;
-import com.dongliushui.xmlparser.AllInfoParserHandler;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
  
 
@@ -46,9 +31,9 @@ import com.dongliushui.xmlparser.AllInfoParserHandler;
  */
 @Controller  
 @RequestMapping("/weixinCon") 		
-public class WeixinController {
+public class WeixinConController {
 	
-	 private Logger log = Logger.getLogger(WeixinController.class);
+	 private Logger log = Logger.getLogger(WeixinConController.class);
 	 
 	 @RequestMapping(method = RequestMethod.GET)  
 	 public void get(HttpServletRequest request, HttpServletResponse response) {  

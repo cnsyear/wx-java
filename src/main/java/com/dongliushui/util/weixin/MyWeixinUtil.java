@@ -1,8 +1,9 @@
-package com.dongliushui.util;
+package com.dongliushui.util.weixin;
 
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.dongliushui.util.AccessToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,7 +94,6 @@ public class MyWeixinUtil {
 		}
 		return jsonObject;
 	}
-	
 
 	/**
 	 * 获取access_token
@@ -104,7 +104,6 @@ public class MyWeixinUtil {
 	 */
 	public static AccessToken getAccessToken(String appid, String appsecret) {
 		AccessToken accessToken = null;
-
 		String requestUrl = access_token_url.replace("APPID", appid).replace("APPSECRET", appsecret);
 		JSONObject jsonObject = httpRequest(requestUrl, "GET", null);
 		// 如果请求成功
