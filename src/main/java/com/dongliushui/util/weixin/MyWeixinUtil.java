@@ -118,6 +118,11 @@ public class MyWeixinUtil {
 				log.error("获取token失败 errcode:{} errmsg:{}", jsonObject.getIntValue("errcode"), jsonObject.getString("errmsg"));
 			}
 		}
+
+
+		System.out.println("获取token： "+ jsonObject.getIntValue("errcode")+"\t"+jsonObject.getString("errmsg"));
+
+
 		return accessToken;
 	}
 }

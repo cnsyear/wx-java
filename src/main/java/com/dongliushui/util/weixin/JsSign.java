@@ -68,12 +68,12 @@ public class JsSign {
         ret.put("timestamp", timestamp);
         ret.put("signature", signature);
         ret.put("appid", appid);
-		System.out.println("url------------"+url);
-		System.out.println("jsapi_ticket------------"+jsapi_ticket);
-		System.out.println("noncestr------------"+noncestr);
-		System.out.println("timestamp------------"+timestamp);
-		System.out.println("signature------------"+signature);
-		System.out.println("appid------------"+appid);
+//		System.out.println("url------------"+url);
+//		System.out.println("jsapi_ticket------------"+jsapi_ticket);
+//		System.out.println("noncestr------------"+noncestr);
+//		System.out.println("timestamp------------"+timestamp);
+//		System.out.println("signature------------"+signature);
+//		System.out.println("appid------------"+appid);
         return ret;
     }
 

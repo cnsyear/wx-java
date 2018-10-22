@@ -10,13 +10,16 @@
         //alert(url);
         $.ajax({
             type:"post",
-            url:"http://localhost:8080/weixin/sign",//自己填写请求地址
+            url:"http://sell.cnsyear.cn/weixin/sign",//自己填写请求地址
             data:{
                 "url" : url
             },
             success:function(result){
-                alert("appid:"+result.appid+"\t"+"timestamp:"+result.timestamp+
-                    "\t"+"noncestr:"+result.noncestr+"\t"+"signature:"+result.signature);
+//				alert("appid"+result.appid);
+//				alert("timestamp"+result.timestamp);
+//				alert("noncestr"+result.noncestr);
+//				alert("signature"+result.signature);
+//				alert("appid"+result.appid);
                 wx.config({
                     // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                     debug: true,
@@ -33,37 +36,51 @@
                 });
             }
         })
-
         wx.error(function(res) {
             alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
         });
-
         wx.ready(function() {
             wx.checkJsApi({
                 jsApiList : ['scanQRCode'],
                     success : function(res) {
-                }
+                    }
             });
             //点击按钮扫描二维码
             document.querySelector('#scanQRCode').onclick = function() {
                 wx.scanQRCode({
-                    needResult : 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-                    scanType : [ "qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                    needResult : 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果
+                    scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
                     success : function(res) {
                         var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
                         //window.location.href = result;//因为我这边是扫描后有个链接，然后跳转到该页面
-                        console.log(result);
-                        $("#content").text(result)
+                        $("#content").html(result)
                     }
                 });
             };
         });
-        $("#content").html("...")
+
+/*
+        $(function () {
+            $("#scanQRCode2").click(function () {
+                console.log("222")
+                wx.scanQRCode({
+                    needResult : 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                    scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                    success : function(res) {
+                        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                        //window.location.href = result;//因为我这边是扫描后有个链接，然后跳转到该页面
+                        $("#content").html(result)
+                    }
+                });
+            });
+        });*/
+
     </script>
 </head>
 <body>
-<input id="scanQRCode" type="button"  value="微信扫一扫" style="width: 200px;height: 100px;"/>
+<input id="scanQRCode" type="button"  value="微信扫一扫1" style="width: 80px;height: 50px;"/>
+<!--<input id="scanQRCode2" type="button" value="微信扫一扫2" style="width: 80px;height: 50px;"/>-->
 <h3>扫码内容：</h3>
-<p id="content" style="color: red;font-size: 18px;"></p>
+<p id="content" style="color: red;font-size: 18px;">暂无内容</p>
 </body>
 </html>

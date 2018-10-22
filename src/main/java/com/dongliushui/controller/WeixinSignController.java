@@ -41,11 +41,14 @@ public class WeixinSignController  {
 		HttpSession session = request.getSession();
 		String url = request.getParameter("url");
 		String accesstoken = (String) session.getAttribute(appId+"accesstoken_session");
+
 		if(accesstoken == null || "".equals(accesstoken)){
+			System.out.println("进入获取 accesstoken------------:"+accesstoken);
 			accesstoken = MyWeixinUtil.getAccessToken(appId, appSecret).getToken();
 			session.setAttribute(appId+"accesstoken_session",accesstoken);
 			session.setMaxInactiveInterval(7200);
 		}
+		System.out.println("获取 accesstoken------------"+accesstoken);
 		Map<String, String> jsData = JsSign.getJsSignMapResult( appId, appSecret, appKey,accesstoken,url, request);
 		return jsData;
 	}
