@@ -27,7 +27,6 @@ public class WeixinSignController  {
 
 	/**
 	 * 获取accesstoken
-	 * https://www.huceo.com/post/414.html
 	 * @param request
 	 * @param response
 	 * @return
@@ -41,7 +40,6 @@ public class WeixinSignController  {
 		HttpSession session = request.getSession();
 		String url = request.getParameter("url");
 		String accesstoken = (String) session.getAttribute(appId+"accesstoken_session");
-
 		if(accesstoken == null || "".equals(accesstoken)){
 			System.out.println("进入获取 accesstoken------------:"+accesstoken);
 			accesstoken = MyWeixinUtil.getAccessToken(appId, appSecret).getToken();
